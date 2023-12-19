@@ -4,10 +4,10 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-BUSINESS = "BUSINESS"
+SELLER = "SELLER"
 CUSTOMER = "CUSTOMER"
 
-USER_TYPE_CHOICES = ((BUSINESS, "Business"), (CUSTOMER, "Customer"), ("ADMIN", "Admin"))
+USER_TYPE_CHOICES = ((SELLER, "Seller"), (CUSTOMER, "Customer"), ("ADMIN", "Admin"))
 
 
 class Account(models.Model):
@@ -17,6 +17,7 @@ class Account(models.Model):
     email = models.CharField(max_length=128)
     phone_number = models.CharField(max_length=20)
     user_type = models.CharField(max_length=8, choices=USER_TYPE_CHOICES)
+    balance = models.PositiveIntegerField()
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
