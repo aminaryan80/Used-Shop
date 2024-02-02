@@ -6,6 +6,7 @@ from account.permissions import IsSeller
 from shop.models import Product
 from shop.utils import handle_error
 
+
 class GetProductView(APIView):
     permission_classes = (IsSeller,)
 
@@ -22,5 +23,5 @@ class GetProductView(APIView):
             'image': product.image.url,
             # Add more fields as needed
         }
-        
+
         return Response(response_data, status=status.HTTP_200_OK)
