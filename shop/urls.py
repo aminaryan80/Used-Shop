@@ -9,6 +9,7 @@ from shop.views.get_price_history_view import GetPriceHistoryView
 
 urlpatterns = [
     path('product/create/', CreateProductView.as_view(), name="create_product"),
+     path('product/<int:product_id>/', CreateProductView.as_view(), name="get_product_view"),
     path('selling-product/create/', CreateSellingProductView.as_view(), name="create_selling_product"),
     path('selling-product/<int:selling_product_id>/update/', EditSellingProductView.as_view(), name="edit_selling_product"),
     path('selling-product/<int:selling_product_id>/', GetSellingProductView.as_view(), name="get_selling_product"),

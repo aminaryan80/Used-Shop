@@ -12,12 +12,14 @@ class CreateProductView(APIView):
 
     @handle_error
     def post(self, request, *args, **kwargs):
+     
         name = request.data.get('name', '')
         image = request.data.get('image', '')
 
         if not name or not image:
             return Response({'error': 'Name and image are required fields'}, status=status.HTTP_400_BAD_REQUEST)
 
+       
         product = Product.objects.create(name=name, image=image)
         return Response({'id': product.id, 'name': product.name, 'image': product.image.url},
                         status=status.HTTP_201_CREATED)

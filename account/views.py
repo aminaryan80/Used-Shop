@@ -13,6 +13,7 @@ from seller.models.seller import Seller
 
 
 def get_register_template(error_str):
+    print(error_str)
     return JsonResponse({"message": error_str}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -28,19 +29,24 @@ def register(request):
     first_name = data['first_name']
     last_name = data['last_name']
     user_type = data['user_type']
-
+    print(f'u:{user_type}')
     if password != confirm_password:
-        return get_register_template('password and confirm_password are different')
+        print('1')
+        return get_register_template('رمز عبور و تکرار آن درست نیستند')
 
     if user_type not in [SELLER, CUSTOMER]:
+        print('2')
         return get_register_template('Invalid user_type')
 
     if User.objects.filter(username=username).exists():
-        return get_register_template('username taken')
+        print('3')
+        return get_register_template('نام کاربری استفاده شده است')
     elif Account.objects.filter(email=email).exists():
-        return get_register_template('email taken')
+        print('4')
+        return get_register_template('ایمیل استفاده شده است')
     elif Account.objects.filter(phone_number=phone_number).exists():
-        return get_register_template('phone_number taken')
+        print('5')
+        return get_register_template('شماره‌ی  تلفن همراه استفاده شده است')
     else:
         user = User.objects.create_user(
             username=username, password=password
