@@ -11,12 +11,12 @@ class GetFilteredProductsView(APIView):
 
     @handle_error
     def get(self, request, *args, **kwargs):
-        name_filter = request.data.get('name_filter', '')
+        name_filter = request.query_params.get('name_filter', '')
 
         products = Product.objects.all()
 
         if name_filter != '':
-            products = products.filter(product__name__contains=name_filter)
+            products = products.filter(name__contains=name_filter)
 
         response = [
             {
