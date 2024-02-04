@@ -2,20 +2,21 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.permissions import IsCustomer
-from customer.models import Customer, DepositHistory
+from account.permissions import IsSeller
+from seller.models.seller import Seller
+from seller.models.withdraw_history import WithdrawHistory
 from shop.utils import handle_error
 
 
-class GetDepositHistoryView(APIView):
-    permission_classes = (IsCustomer,)
+class GetWithdrawHistoryView(APIView):
+    permission_classes = (IsSeller,)
 
     @handle_error
     def get(self, request, *args, **kwargs):
-        customer_id = request.user.id
-        customer = Customer.objects.get(user_id=customer_id)
+        seller_id = request.user.id
+        seller = Seller.objects.get(user_id=seller_id)
 
-        deposit_history = DepositHistory.objects.order_by('-date').filter(customer=customer)
+        withdraw_history = WithdrawHistory.objects.order_by('-date').filter(seller=seller)
 
         return Response(
             [
@@ -23,7 +24,7 @@ class GetDepositHistoryView(APIView):
                     'amount': record.amount,
                     'date': record.date,
                 }
-                for record in deposit_history
+                for record in withdraw_history
             ],
             status=status.HTTP_200_OK
         )
